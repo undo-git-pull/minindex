@@ -1,5 +1,7 @@
 # minindex
 
+[![CI](https://github.com/undo-git-pull/minindex/actions/workflows/ci.yml/badge.svg)](https://github.com/undo-git-pull/minindex/actions/workflows/ci.yml)
+
 **Minimal, memory-mapped local text indexing for Python**
 
 `minindex` is a lightweight, high-performance text indexing library designed for **local document search** using a Rust backend and memory-mapped data structures.
@@ -16,15 +18,8 @@
 
 ## Installation
 
-**Not published yet.**
-<!-- ```bash
-pip install minindex
-``` -->
-
-For now, install with:
 ```bash
-cd minindex/py
-maturin develop -q
+pip install minindex
 ```
 
 ---
