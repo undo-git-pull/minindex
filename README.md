@@ -4,7 +4,7 @@
 
 **Minimal, memory-mapped local text indexing for Python**
 
-`minindex` is a lightweight, high-performance text indexing library designed for **local document search** using a Rust backend and memory-mapped data structures.
+`minindex` is a lightweight text indexing library designed for **local document search** using a Rust backend and memory-mapped data structures.
 
 ## Features
 
