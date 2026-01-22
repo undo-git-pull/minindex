@@ -1,0 +1,12 @@
+[package]
+name = "minindex"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "minindex"
+crate-type = ["cdylib"]
+
+[dependencies]
+minindex_core = { path = "../core" }
+pyo3 = { version = "0.21", features = ["extension-module"] }

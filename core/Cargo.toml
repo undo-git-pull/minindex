@@ -1,0 +1,12 @@
+[package]
+name = "minindex_core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+fst = { version = "0.4", features = ["levenshtein"] }
+serde_json = { version = "1.0", features = ["preserve_order"] }
+fsst = { package = "fsst-rs", version = "0.5" }
+memmap2 = "0.9"
+regex-automata = "0.4"
+rake = "0.3"
