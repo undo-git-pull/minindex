@@ -7,11 +7,10 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
-  build-and-publish:
-    name: build-and-publish
+  build:
+    name: build
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -33,8 +32,27 @@ jobs:
           command: build
           args: --release --out dist
 
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.os }}
+          path: py/dist
+
+  publish:
+    name: publish
+    runs-on: ubuntu-latest
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Download wheels
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+
       - name: Publish to PyPI
-        if: startsWith(github.ref, 'refs/tags/')
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          packages-dir: py/dist
+          packages-dir: dist
