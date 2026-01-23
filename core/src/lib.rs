@@ -816,7 +816,9 @@ fn json_value_to_string(value: &serde_json::Value) -> Result<String, Box<dyn Err
         serde_json::Value::Number(n) => Ok(n.to_string()),
         serde_json::Value::Bool(b) => Ok(b.to_string()),
         serde_json::Value::Null => Err("Null value not allowed for index field".into()),
-        _ => Ok(value.to_string()),
+        serde_json::Value::Array(_) | serde_json::Value::Object(_) => {
+            Err("Nested JSON values are not supported".into())
+        }
     }
 }
 

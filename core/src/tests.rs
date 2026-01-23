@@ -119,6 +119,45 @@ fn missing_field_errors() {
 }
 
 #[test]
+fn numeric_fields_are_coerced_to_strings() {
+    let jsonl_path = temp_path("numeric_fields", "jsonl");
+    write_jsonl(
+        &jsonl_path,
+        &["{\"title\":\"Doc\",\"views\":42,\"rating\":4.5}"],
+    );
+
+    let fields = vec!["title".to_string(), "views".to_string(), "rating".to_string()];
+    let index = build_index_from_jsonl(&jsonl_path, &fields, Some("title"), None)
+        .expect("build index");
+    let results = regex_search(&index, "42", 5).expect("regex search");
+    assert_eq!(results.len(), 1);
+    assert_eq!(results[0].doc_id, "Doc");
+    assert_eq!(
+        results[0].document.get("views").map(String::as_str),
+        Some("42")
+    );
+    assert_eq!(
+        results[0].document.get("rating").map(String::as_str),
+        Some("4.5")
+    );
+}
+
+#[test]
+fn nested_fields_error() {
+    let jsonl_path = temp_path("nested_fields", "jsonl");
+    write_jsonl(
+        &jsonl_path,
+        &["{\"title\":\"Doc\",\"meta\":{\"author\":\"Ada\"}}"],
+    );
+
+    let fields = vec!["title".to_string(), "meta".to_string()];
+    let err = build_index_from_jsonl(&jsonl_path, &fields, Some("title"), None).unwrap_err();
+    assert!(err
+        .to_string()
+        .contains("Nested JSON values are not supported"));
+}
+
+#[test]
 fn more_fields_are_returned_when_present() {
     let jsonl_path = temp_path("extra_fields", "jsonl");
     write_jsonl(

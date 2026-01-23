@@ -44,7 +44,16 @@ index_from_jsonl(
 
 ```
 
+JSONL requirements: each line must be a flat JSON object (no nested objects/arrays). Non-string values are coerced to strings (numbers become their string form, booleans become `true`/`false`).
+
 ## Search API
+
+** Load the index
+```python
+from minindex import Index
+idx = Index('index-file.idx')
+```
+
 
 ```python
 # For fuzzy search, multiple search terms are treated as AND
@@ -97,6 +106,21 @@ flowchart LR
 {"title": "New Guidelines for Hypertension Screening", "category": "Medical", "href": "/article/medical/0", "body": "Clinicians are urged to confirm elevated readings with\\ambulatory monitoring before initiating treatment."}
 {"title": "Advances in Postoperative Pain Management", "category": "Medical", "href": "/article/medical/1", "body": "A multimodal approach combining regional anesthesia\\and non-opioid analgesics reduces hospital stays." }
 ```
+
+## Local development
+
+Run Rust tests:
+```bash
+cargo test
+```
+
+Install the Python extension in editable mode for local testing:
+```bash
+cd py
+maturin develop -q
+```
+
+After `maturin develop -q`, you can import `minindex` from your local environment and run ad hoc checks or Python-side tests.
 
 ## License
 
